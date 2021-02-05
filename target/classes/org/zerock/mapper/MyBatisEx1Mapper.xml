@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.zerock.mapper.MyBatisEx1Mapper">
+	<select id="select1" resultType="int">
+<![CDATA[
+		select * from tbl_board
+]]>		
+		<if test="bno != 0">
+			where bno = #{bno}
+		</if>
+	</select>
+	
+	<select id="select2" resultType="int">
+		SELECT * FROM tbl_board
+		
+		<if test="type == 'title'">
+			WHERE title = #{keyword}
+		</if>
+		<if test="type == 'content'">
+			WHERE content = #{keyword}
+		</if>
+		<if test="type eq 'writer'">
+			WHERE writer = #{keyword}
+		</if>
+	</select>
+	
+	<select id="select3" resultType="int">
+		SELECT * FROM tbl_board
+		
+		<if test="type == 'T'.toString()">
+		    WHERE title LIKE '%' || #{keyword} || '%'
+		</if>
+		<if test="type == 'C'.toString()">
+			WHERE content LIKE '%' || #{keyword} || '%'
+		</if>
+		<if test="type == 'W'.toString()">
+			WHERE writer LIKE '%' || #{keyword} || '%'
+		</if>
+	</select>
+	
+	<select id="select4" resultType="int">
+		SELECT * FROM tbl_board
+		WHERE
+		<choose>
+			<when test="type == 'title'">
+				title LIKE '%' || #{keyword } || '%'
+			</when>
+			<when test="type == 'content'">
+				content LIKE '%' || #{keyword } || '%'
+			</when>
+			<when test="type == 'writer'">
+				writer LIKE '%' || #{keyword } || '%'
+			</when>
+			<otherwise>
+				bno > 0
+			</otherwise>
+		</choose>
+	</select>	
+	
+	<select id="select5" resultType="int">
+		SELECT * FROM tbl_board
+		<where>
+			<choose>
+				<when test="type == 'title'">
+					title = #{keyword}
+				</when>
+				<when test="type == 'content'" >
+					content = #{keyword}
+				</when>
+			</choose>
+		</where>
+	</select>
+	
+	<select id="select6" resultType="int">
+		SELECT * FROM tbl_board
+		<foreach item="myitem" collection="mylist">
+			#{myitem}, 
+		</foreach>
+	</select>
+	
+	<select id="select7" resultType="int">
+		SELECT * FROM tbl_board
+		
+		<foreach item="myval" index="myidx" collection="mymap">
+			(#{myidx}, #{myval}) , 
+		</foreach>
+	</select>
+	
+	<select id="select8" resultType="int">
+		SELECT * FROM tbl_board
+		<foreach item="item" collection="mylist">
+			<trim suffix="AND">
+				#{item}
+			</trim>
+		</foreach>
+	</select>
+	
+	<select id="select9" resultType="int">
+		SELECT * FROM tbl_board
+		<trim suffixOverrides="AND">
+			<foreach item="item" collection="mylist">
+				<trim suffix="AND">
+					#{item}
+				</trim>
+			</foreach>
+		</trim>
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
